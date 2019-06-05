@@ -102,20 +102,10 @@ def loss_fn(pred, gt):
       
 lstm = LSTM(64, 10, 32, 10)
 
-# Create dataset
-
-x_data = []
-y_data = []
-for i in range(400):
-  x = random.choices(range(10), k=10)
-  y = [x[2]]
-  x_data.append(one_hot(x, 10))
-  y_data.append(one_hot(y, 10))
-
-dataset = torch.utils.data.TensorDataset(torch.Tensor(x_data), torch.Tensor(y_data))
-#dataset = torch.utils.data.TensorDataset(
-#              torch.Tensor([one_hot(list(range(lstm.max_len)), lstm.max_len) for _ in range(100)]), 
-#              torch.Tensor([one_hot([9], lstm.max_len) for _ in range(100)]))
+# Create dummy dataset
+dataset = torch.utils.data.TensorDataset(
+              torch.Tensor([one_hot(list(range(lstm.max_len)), lstm.max_len) for _ in range(100)]), 
+              torch.Tensor([one_hot([9], lstm.max_len) for _ in range(100)]))
 dataloader = DataLoader(dataset, batch_size=lstm.batch_size, shuffle=True, drop_last=True)
 
 optimizer = torch.optim.Adam(lstm.parameters(), lr=3e-4)
